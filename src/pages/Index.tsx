@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 import { 
   Sparkles, 
   Moon, 
@@ -16,6 +17,8 @@ import {
 import cosmicHero from "@/assets/cosmic-hero.jpg";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   const features = [
     {
       icon: Sun,
@@ -94,7 +97,7 @@ const Index = () => {
               variant="cosmic" 
               size="lg" 
               className="px-8 text-lg"
-              onClick={() => window.location.href = '/morning'}
+              onClick={() => navigate('/morning')}
             >
               <Play className="w-5 h-5 mr-2" />
               Begin Your Journey
@@ -103,7 +106,7 @@ const Index = () => {
               variant="cosmic-outline" 
               size="lg" 
               className="px-8 text-lg"
-              onClick={() => window.location.href = '/dashboard'}
+              onClick={() => navigate('/dashboard')}
             >
               <Sparkles className="w-5 h-5 mr-2" />
               Explore Features
@@ -276,7 +279,7 @@ const Index = () => {
               variant="cosmic" 
               size="lg" 
               className="px-12 text-lg"
-              onClick={() => window.location.href = '/morning'}
+              onClick={() => navigate('/morning')}
             >
               <Sparkles className="w-5 h-5 mr-2" />
               Start Morning Alignment
@@ -285,7 +288,7 @@ const Index = () => {
               variant="cosmic-outline" 
               size="lg" 
               className="px-12 text-lg"
-              onClick={() => window.location.href = '/evening'}
+              onClick={() => navigate('/evening')}
             >
               <Heart className="w-5 h-5 mr-2" />
               Try Evening Reflection
