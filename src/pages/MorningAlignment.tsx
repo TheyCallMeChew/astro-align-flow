@@ -5,9 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { EnergySlider } from "@/components/ui/energy-slider";
 import { TaskManager } from "@/components/ui/task-manager";
 import { CosmicTimer } from "@/components/ui/cosmic-timer";
+import { useNavigate } from "react-router-dom";
 import { Sun, Sunrise, Sparkles, Heart, ChevronRight } from "lucide-react";
 
 export default function MorningAlignment() {
+  const navigate = useNavigate();
   const [energy, setEnergy] = useState(0.7);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -125,12 +127,21 @@ export default function MorningAlignment() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-center gap-4 pt-8">
-            <Button variant="cosmic" size="lg" className="px-8">
+          <div className="flex flex-wrap justify-center gap-4 pt-8">
+            <Button 
+              variant="cosmic" 
+              size="lg" 
+              className="px-8"
+              onClick={() => navigate('/dashboard')}
+            >
               <Sparkles className="w-5 h-5 mr-2" />
               Complete Morning Ritual
             </Button>
-            <Button variant="cosmic-outline" size="lg">
+            <Button 
+              variant="cosmic-outline" 
+              size="lg"
+              onClick={() => navigate('/dashboard')}
+            >
               View Dashboard
             </Button>
           </div>

@@ -1,16 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { TaskManager } from "@/components/ui/task-manager";
+import { useNavigate } from "react-router-dom";
+import { useAppState } from "@/hooks/use-app-state";
+import { useToast } from "@/hooks/use-toast";
 import { Moon, Star, Heart, Sparkles, CheckCircle, BookOpen } from "lucide-react";
 
 export default function EveningReflection() {
+  const navigate = useNavigate();
+  const { addReflection, getTodayReflection } = useAppState();
+  const { toast } = useToast();
+  
   const [gratitude, setGratitude] = useState("");
   const [synchronicities, setSynchronicities] = useState("");
   const [reflection, setReflection] = useState("");
   const [energy, setEnergy] = useState(75);
+
+  useEffect(() => {
+    const todayReflection = getTodayReflection();
+    if (todayReflection) {
+      setGratitude(todayReflection.gratitude);
+      setSynchronicities(todayReflection.synchronicities);
+      setReflection(todayReflection.reflection);
+      setEnergy(todayReflection.energy);
+    }
+  }, []);
 
   // Mock completed tasks for the day
   const completedTasks = [
@@ -27,9 +44,22 @@ export default function EveningReflection() {
   ];
 
   const handleSaveReflection = () => {
-    // In real app, save to database
-    console.log("Saving reflection:", { gratitude, synchronicities, reflection, energy });
-    // Show toast notification
+    const today = new Date().toISOString().split('T')[0];
+    addReflection({
+      date: today,
+      gratitude,
+      synchronicities,
+      reflection,
+      energy,
+      completedTasks: completedTasks.filter(t => t.completed).map(t => t.title)
+    });
+    
+    toast({
+      title: "Reflection Saved ✨",
+      description: "Your cosmic journey has been recorded",
+    });
+    
+    setTimeout(() => navigate('/dashboard'), 1500);
   };
 
   return (
@@ -168,17 +198,22 @@ export default function EveningReflection() {
           </Card>
 
           {/* Save Actions */}
-          <div className="flex justify-center gap-4 pt-8">
+          <div className="flex flex-wrap justify-center gap-4 pt-8">
             <Button 
               variant="cosmic" 
               size="lg" 
               className="px-8"
               onClick={handleSaveReflection}
+              disabled={!gratitude && !reflection}
             >
               <Moon className="w-5 h-5 mr-2" />
               Save Evening Reflection
             </Button>
-            <Button variant="cosmic-outline" size="lg">
+            <Button 
+              variant="cosmic-outline" 
+              size="lg"
+              onClick={() => navigate('/dashboard')}
+            >
               View Dashboard
             </Button>
           </div>
