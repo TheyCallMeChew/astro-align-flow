@@ -66,8 +66,19 @@
     @apply bg-background text-foreground;
     background: var(--gradient-nebula);
     min-height: 100vh;
-    /* Mobile safe area support */
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    /* iOS safe area support */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Disable pull-to-refresh on iOS */
+    overscroll-behavior-y: contain;
+    /* Improve touch response */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Bottom nav safe area padding */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* Cosmic animations */

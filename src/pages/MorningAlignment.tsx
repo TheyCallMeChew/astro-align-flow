@@ -34,24 +34,24 @@ export default function MorningAlignment() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-nebula">
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sunrise className="w-8 h-8 text-primary animate-float" />
-            <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
+    <div className="min-h-screen bg-gradient-nebula pb-20">
+      <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* Mobile Header */}
+        <div className="text-center space-y-3">
+          <div className="flex items-center justify-center gap-2">
+            <Sunrise className="w-7 h-7 text-primary animate-float" />
+            <h1 className="text-3xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
               Morning Alignment
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Begin your day with cosmic intention
           </p>
         </div>
 
-        {/* Progress Steps */}
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-4">
+        {/* Progress Steps - Mobile Optimized */}
+        <div className="overflow-x-auto -mx-4 px-4 pb-2">
+          <div className="flex items-center gap-2 min-w-max">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = index === currentStep;
@@ -60,15 +60,15 @@ export default function MorningAlignment() {
               return (
                 <div key={index} className="flex items-center">
                   <div className={`
-                    flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300
+                    flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300 text-xs
                     ${isActive ? 'bg-gradient-cosmic text-white shadow-glow' : 
                       isCompleted ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'}
                   `}>
-                    <Icon className="w-4 h-4" />
-                    <span className="text-sm font-medium">{step.title}</span>
+                    <Icon className="w-3.5 h-3.5" />
+                    <span className="font-medium whitespace-nowrap">{step.title}</span>
                   </div>
                   {index < steps.length - 1 && (
-                    <ChevronRight className="w-4 h-4 mx-2 text-muted-foreground" />
+                    <ChevronRight className="w-3 h-3 mx-1 text-muted-foreground" />
                   )}
                 </div>
               );
@@ -76,75 +76,68 @@ export default function MorningAlignment() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Daily Inspiration */}
-          <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary" />
-                Today's Cosmic Message
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <blockquote className="text-lg italic text-foreground border-l-4 border-primary pl-4">
-                {dailyQuote}
-              </blockquote>
-              <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                <p className="text-sm font-medium text-primary mb-2">Reflection Question:</p>
-                <p className="text-foreground">{introspectiveQuestion}</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Energy Check */}
-            <div className="space-y-6">
-              <EnergySlider value={energy} onChange={setEnergy} />
-              
-              {/* Meditation */}
-              <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-primary" />
-                    Guided Meditation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="p-4 bg-card/30 rounded-lg border border-muted/20">
-                    <p className="text-sm text-foreground leading-relaxed">
-                      {getMeditationScript(energy)}
-                    </p>
-                  </div>
-                  <CosmicTimer duration={180} title="3-Minute Flow" />
-                </CardContent>
-              </Card>
+        {/* Daily Inspiration - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-center justify-center text-lg">
+              <Sparkles className="w-4 h-4 text-primary" />
+              Today's Cosmic Message
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-3">
+            <blockquote className="text-sm italic text-foreground border-l-2 border-primary pl-3">
+              {dailyQuote}
+            </blockquote>
+            <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+              <p className="text-xs font-medium text-primary mb-1">Reflection:</p>
+              <p className="text-xs text-foreground">{introspectiveQuestion}</p>
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Daily Intentions */}
-            <div>
-              <TaskManager maxTasks={3} title="Daily Intentions" />
+        {/* Energy Check - Mobile Optimized */}
+        <EnergySlider value={energy} onChange={setEnergy} />
+        
+        {/* Meditation - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Heart className="w-4 h-4 text-primary" />
+              Guided Meditation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="p-3 bg-card/30 rounded-lg border border-muted/20">
+              <p className="text-xs text-foreground leading-relaxed">
+                {getMeditationScript(energy)}
+              </p>
             </div>
-          </div>
+            <CosmicTimer duration={180} title="3-Minute Flow" />
+          </CardContent>
+        </Card>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 pt-8">
-            <Button 
-              variant="cosmic" 
-              size="lg" 
-              className="px-8"
-              onClick={() => navigate('/dashboard')}
-            >
-              <Sparkles className="w-5 h-5 mr-2" />
-              Complete Morning Ritual
-            </Button>
-            <Button 
-              variant="cosmic-outline" 
-              size="lg"
-              onClick={() => navigate('/dashboard')}
-            >
-              View Dashboard
-            </Button>
-          </div>
+        {/* Daily Intentions - Mobile Optimized */}
+        <TaskManager maxTasks={3} title="Daily Intentions" />
+
+        {/* Action Buttons - Mobile Optimized */}
+        <div className="flex flex-col gap-3 pt-4">
+          <Button 
+            variant="cosmic" 
+            size="lg" 
+            className="w-full"
+            onClick={() => navigate('/dashboard')}
+          >
+            <Sparkles className="w-5 h-5 mr-2" />
+            Complete Morning Ritual
+          </Button>
+          <Button 
+            variant="cosmic-outline" 
+            size="lg"
+            className="w-full"
+            onClick={() => navigate('/dashboard')}
+          >
+            View Dashboard
+          </Button>
         </div>
       </div>
     </div>

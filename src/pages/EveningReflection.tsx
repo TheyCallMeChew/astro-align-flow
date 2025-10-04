@@ -63,160 +63,157 @@ export default function EveningReflection() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-nebula">
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Moon className="w-8 h-8 text-primary animate-float" />
-            <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
+    <div className="min-h-screen bg-gradient-nebula pb-20">
+      <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* Mobile Header */}
+        <div className="text-center space-y-3">
+          <div className="flex items-center justify-center gap-2">
+            <Moon className="w-7 h-7 text-primary animate-float" />
+            <h1 className="text-3xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
               Evening Reflection
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Honor your day's journey with gratitude
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Daily Review */}
-          <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-primary" />
-                Today's Intentions Review
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {completedTasks.map((task) => (
-                <div
-                  key={task.id}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-card/30 border border-muted/20"
-                >
-                  <div className={`w-4 h-4 rounded-full ${
-                    task.completed ? 'bg-gradient-cosmic' : 'bg-muted'
-                  }`} />
-                  <span className={`flex-1 ${
-                    task.completed 
-                      ? "text-foreground" 
-                      : "text-muted-foreground"
-                  }`}>
-                    {task.title}
-                  </span>
-                  <Badge variant={task.completed ? "default" : "outline"}>
-                    {task.completed ? "Complete" : "In Progress"}
-                  </Badge>
+        {/* Daily Review - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <CheckCircle className="w-4 h-4 text-primary" />
+              Today's Review
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {completedTasks.map((task) => (
+              <div
+                key={task.id}
+                className="flex items-center gap-2 p-2.5 rounded-lg bg-card/30 border border-muted/20"
+              >
+                <div className={`w-3 h-3 rounded-full flex-shrink-0 ${
+                  task.completed ? 'bg-gradient-cosmic' : 'bg-muted'
+                }`} />
+                <span className={`flex-1 text-sm ${
+                  task.completed 
+                    ? "text-foreground" 
+                    : "text-muted-foreground"
+                }`}>
+                  {task.title}
+                </span>
+                <Badge variant={task.completed ? "default" : "outline"} className="text-xs">
+                  {task.completed ? "✓" : "•"}
+                </Badge>
+              </div>
+            ))}
+            
+            <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
+              <div className="flex items-center gap-2 mb-1">
+                <Star className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-medium text-primary">Energy Summary</span>
+              </div>
+              <p className="text-sm text-foreground">
+                Your energy today: <span className="font-semibold text-primary">{energy}%</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {energy >= 80 ? "High energy - you were in flow!" :
+                 energy >= 60 ? "Balanced energy - steady progress" :
+                 energy >= 40 ? "Moderate energy - gentle accomplishments" :
+                 "Low energy - rest was needed"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Gratitude - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Heart className="w-4 h-4 text-primary" />
+              Gratitude
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-xs text-muted-foreground">
+              What filled your heart with appreciation today?
+            </p>
+            <Textarea
+              placeholder="I'm grateful for..."
+              value={gratitude}
+              onChange={(e) => setGratitude(e.target.value)}
+              className="min-h-[100px] bg-card/30 border-muted/30 text-sm"
+            />
+          </CardContent>
+        </Card>
+
+        {/* Synchronicities - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Sparkles className="w-4 h-4 text-primary" />
+              Synchronicities & Signs
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-xs text-muted-foreground">
+              What meaningful moments or cosmic nudges did you notice?
+            </p>
+            <Textarea
+              placeholder="Today the universe whispered..."
+              value={synchronicities}
+              onChange={(e) => setSynchronicities(e.target.value)}
+              className="min-h-[100px] bg-card/30 border-muted/30 text-sm"
+            />
+          </CardContent>
+        </Card>
+
+        {/* Deeper Reflection - Mobile Optimized */}
+        <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <BookOpen className="w-4 h-4 text-primary" />
+              Daily Reflection
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 gap-2">
+              {reflectionPrompts.map((prompt, index) => (
+                <div key={index} className="p-2.5 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-xs text-foreground italic">"{prompt}"</p>
                 </div>
               ))}
-              
-              <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <Star className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-primary">Energy Summary</span>
-                </div>
-                <p className="text-foreground">
-                  Your energy today: <span className="font-semibold text-primary">{energy}%</span>
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {energy >= 80 ? "High energy - you were in flow!" :
-                   energy >= 60 ? "Balanced energy - steady progress" :
-                   energy >= 40 ? "Moderate energy - gentle accomplishments" :
-                   "Low energy - rest was needed"}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            
+            <Textarea
+              placeholder="Reflect on your day's journey..."
+              value={reflection}
+              onChange={(e) => setReflection(e.target.value)}
+              className="min-h-[120px] bg-card/30 border-muted/30 text-sm"
+            />
+          </CardContent>
+        </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Gratitude */}
-            <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Heart className="w-5 h-5 text-primary" />
-                  Gratitude
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  What filled your heart with appreciation today?
-                </p>
-                <Textarea
-                  placeholder="I'm grateful for..."
-                  value={gratitude}
-                  onChange={(e) => setGratitude(e.target.value)}
-                  className="min-h-[120px] bg-card/30 border-muted/30"
-                />
-              </CardContent>
-            </Card>
-
-            {/* Synchronicities */}
-            <Card className="bg-gradient-subtle border-muted/50 shadow-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  Synchronicities & Signs
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  What meaningful moments or cosmic nudges did you notice?
-                </p>
-                <Textarea
-                  placeholder="Today the universe whispered..."
-                  value={synchronicities}
-                  onChange={(e) => setSynchronicities(e.target.value)}
-                  className="min-h-[120px] bg-card/30 border-muted/30"
-                />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Deeper Reflection */}
-          <Card className="bg-gradient-subtle border-muted/50 shadow-cosmic">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-primary" />
-                Daily Reflection
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {reflectionPrompts.map((prompt, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-primary/5 border border-primary/20">
-                    <p className="text-sm text-foreground italic">"{prompt}"</p>
-                  </div>
-                ))}
-              </div>
-              
-              <Textarea
-                placeholder="Reflect on your day's journey..."
-                value={reflection}
-                onChange={(e) => setReflection(e.target.value)}
-                className="min-h-[150px] bg-card/30 border-muted/30"
-              />
-            </CardContent>
-          </Card>
-
-          {/* Save Actions */}
-          <div className="flex flex-wrap justify-center gap-4 pt-8">
-            <Button 
-              variant="cosmic" 
-              size="lg" 
-              className="px-8"
-              onClick={handleSaveReflection}
-              disabled={!gratitude && !reflection}
-            >
-              <Moon className="w-5 h-5 mr-2" />
-              Save Evening Reflection
-            </Button>
-            <Button 
-              variant="cosmic-outline" 
-              size="lg"
-              onClick={() => navigate('/dashboard')}
-            >
-              View Dashboard
-            </Button>
-          </div>
+        {/* Save Actions - Mobile Optimized */}
+        <div className="flex flex-col gap-3 pt-4">
+          <Button 
+            variant="cosmic" 
+            size="lg" 
+            className="w-full"
+            onClick={handleSaveReflection}
+            disabled={!gratitude && !reflection}
+          >
+            <Moon className="w-5 h-5 mr-2" />
+            Save Evening Reflection
+          </Button>
+          <Button 
+            variant="cosmic-outline" 
+            size="lg"
+            className="w-full"
+            onClick={() => navigate('/dashboard')}
+          >
+            View Dashboard
+          </Button>
         </div>
       </div>
     </div>
