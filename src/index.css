@@ -66,6 +66,8 @@
     @apply bg-background text-foreground;
     background: var(--gradient-nebula);
     min-height: 100vh;
+    /* Mobile safe area support */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
   /* Cosmic animations */
