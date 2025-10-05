@@ -1,5 +1,11 @@
 export type MoonPhase = 'new' | 'waxing' | 'full' | 'waning';
 
+export interface MoonPhaseDetails {
+  phase: MoonPhase;
+  name: string;
+  phaseIndex: number;
+}
+
 export function getMoonPhase(date: Date = new Date()): MoonPhase {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -39,4 +45,34 @@ export function getMoonPhaseEmoji(phase: MoonPhase): string {
     waning: '🌘',
   };
   return emojis[phase];
+}
+
+export function getMoonPhaseDetails(date: Date = new Date()): MoonPhaseDetails {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  
+  let r = year % 100;
+  r %= 19;
+  if (r > 9) r -= 19;
+  r = ((r * 11) % 30) + month + day;
+  if (month < 3) r += 2;
+  const phaseIndex = ((r < 0 ? r + 30 : r) % 30);
+  
+  const name =
+    phaseIndex === 0 ? 'New Moon' :
+    phaseIndex < 7 ? 'Waxing Crescent' :
+    phaseIndex === 7 ? 'First Quarter' :
+    phaseIndex < 15 ? 'Waxing Gibbous' :
+    phaseIndex === 15 ? 'Full Moon' :
+    phaseIndex < 22 ? 'Waning Gibbous' :
+    phaseIndex === 22 ? 'Last Quarter' : 'Waning Crescent';
+  
+  const phase: MoonPhase = 
+    phaseIndex < 1.84566 ? 'new' :
+    phaseIndex < 7.38264 ? 'waxing' :
+    phaseIndex < 14.76528 ? 'full' :
+    phaseIndex < 22.14792 ? 'waning' : 'new';
+  
+  return { phase, name, phaseIndex };
 }

@@ -6,12 +6,18 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Award, TrendingUp, CheckCircle2, Zap, Sparkles, Moon, Calendar } from 'lucide-react';
 import insightsData from '@/data/insights.json';
 import { generateAlignmentInsight, getCurrentTransits } from '@/utils/AstroAlignmentEngine';
+import { getDailyInsight, getWeeklyInsight } from '@/engine/insightsLocal';
+import type { Energy } from '@/types';
+import { get, KEYS } from '@/storage/local';
 
 export default function Insights() {
   const { days, streaks, badges, profile } = useStore();
   const [dailyInsight, setDailyInsight] = useState('');
   const [weeklyInsight, setWeeklyInsight] = useState('');
   const [alignmentInsight, setAlignmentInsight] = useState('');
+  const [recentEnergy, setRecentEnergy] = useState<Energy>('medium');
+  const [localDailyInsight, setLocalDailyInsight] = useState({ title: '', body: '', recs: [] as string[] });
+  const [localWeeklyInsight, setLocalWeeklyInsight] = useState({ title: '', body: '', focusDays: [] as string[] });
 
   const energyData = Object.values(days)
     .filter((day) => day.morningEnergy)
@@ -35,16 +41,29 @@ export default function Insights() {
 
   // Load astrology insights
   useEffect(() => {
+    (async () => {
+      const today = new Date().toISOString().split('T')[0];
+      const dayData = await get(KEYS.day(today), { date: today, tasks: [], energy: 'medium' as Energy });
+      if (dayData.energy) setRecentEnergy(dayData.energy);
+    })();
+    
     const userSign = (profile.sunSign || 'libra').toLowerCase() as keyof typeof insightsData;
     const signInsights = insightsData[userSign] || insightsData.libra;
+    const sunSign = profile.sunSign || 'Libra';
     
     setDailyInsight(signInsights.today);
     setWeeklyInsight(signInsights.week);
 
     const transits = getCurrentTransits();
-    const alignment = generateAlignmentInsight(profile.sunSign || 'Libra', transits);
+    const alignment = generateAlignmentInsight(sunSign, transits);
     setAlignmentInsight(alignment);
-  }, [profile.sunSign]);
+    
+    // Get local engine insights
+    const daily = getDailyInsight(sunSign, recentEnergy);
+    const weekly = getWeeklyInsight(sunSign);
+    setLocalDailyInsight(daily);
+    setLocalWeeklyInsight(weekly);
+  }, [profile.sunSign, recentEnergy]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-6">
@@ -62,17 +81,37 @@ export default function Insights() {
           <Card className="p-6 bg-gradient-to-br from-primary/10 via-primary/5 to-background border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-cosmic animate-fade-in">
             <div className="flex items-center gap-2 mb-3">
               <Moon className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">Today's Energy</h2>
+              <h2 className="text-xl font-semibold">{localDailyInsight.title || "Today's Energy"}</h2>
             </div>
-            <p className="text-foreground leading-relaxed">{dailyInsight}</p>
+            <p className="text-foreground leading-relaxed">{localDailyInsight.body || dailyInsight}</p>
+            {localDailyInsight.recs && localDailyInsight.recs.length > 0 && (
+              <div className="space-y-2 mt-4 pt-4 border-t border-primary/10">
+                {localDailyInsight.recs.map((rec, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-muted-foreground">{rec}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </Card>
 
           <Card className="p-6 bg-gradient-to-br from-accent/10 via-accent/5 to-background border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-glow animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <div className="flex items-center gap-2 mb-3">
               <Calendar className="w-5 h-5 text-accent" />
-              <h2 className="text-xl font-semibold">Weekly Focus</h2>
+              <h2 className="text-xl font-semibold">{localWeeklyInsight.title || "Weekly Focus"}</h2>
             </div>
-            <p className="text-foreground leading-relaxed">{weeklyInsight}</p>
+            <p className="text-foreground leading-relaxed">{localWeeklyInsight.body || weeklyInsight}</p>
+            {localWeeklyInsight.focusDays && localWeeklyInsight.focusDays.length > 0 && (
+              <div className="flex items-center gap-2 mt-4">
+                <span className="text-sm text-muted-foreground">Focus days:</span>
+                {localWeeklyInsight.focusDays.map((day) => (
+                  <Badge key={day} variant="secondary">
+                    {day}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </Card>
 
           <Card className="p-6 bg-gradient-to-br from-secondary/10 via-secondary/5 to-background border-secondary/20 hover:border-secondary/40 transition-all duration-300 hover:shadow-soft animate-fade-in" style={{ animationDelay: '0.2s' }}>
