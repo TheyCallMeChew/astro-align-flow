@@ -16,20 +16,20 @@ export default function Home() {
   const totalTasks = today.tasks.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5 pb-24 pt-6">
-      <div className="container max-w-2xl mx-auto px-4 space-y-6">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5 pb-24 pt-8">
+      <div className="container max-w-2xl mx-auto px-4 space-y-8">
         {/* Header */}
-        <div className="text-center space-y-3 mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
+        <div className="text-center space-y-4 animate-fade-in">
+          <h1 className="text-5xl font-bold bg-gradient-cosmic bg-clip-text text-transparent drop-shadow-glow">
             AstroFlow
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-lg">
             {getMoonPhaseEmoji(moonPhase)} {moonPhase.charAt(0).toUpperCase() + moonPhase.slice(1)} Moon
           </p>
         </div>
 
         {/* Today's Summary */}
-        <Card className="p-6 space-y-4">
+        <Card className="p-6 space-y-4 hover-scale border-primary/20 hover:border-primary/40 transition-all duration-300 animate-fade-in">
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
             Today's Flow
@@ -74,27 +74,27 @@ export default function Home() {
           <Button
             variant="cosmic"
             size="lg"
-            className="w-full h-14"
+            className="w-full h-16 text-base hover-scale"
             onClick={() => navigate('/morning')}
           >
-            <Sunrise className="w-5 h-5 mr-2" />
+            <Sunrise className="w-6 h-6 mr-2" />
             {today.morningEnergy ? 'Review Morning' : 'Start Morning Alignment'}
           </Button>
 
           <Button
             variant="cosmic"
             size="lg"
-            className="w-full h-14"
+            className="w-full h-16 text-base hover-scale"
             onClick={() => navigate('/reflection')}
           >
-            <Heart className="w-5 h-5 mr-2" />
+            <Heart className="w-6 h-6 mr-2" />
             Voice Reflection
           </Button>
 
           <Button
             variant="cosmic-outline"
             size="lg"
-            className="w-full h-14"
+            className="w-full h-14 hover-scale"
             onClick={() => navigate('/meditation')}
           >
             <Brain className="w-5 h-5 mr-2" />

@@ -49,17 +49,17 @@ export default function Insights() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-6">
       <div className="container max-w-4xl mx-auto px-4 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
-            <Sparkles className="w-8 h-8 text-primary" />
+        <div className="text-center space-y-2 animate-fade-in">
+          <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent flex items-center justify-center gap-2">
+            <Sparkles className="w-8 h-8 text-primary animate-pulse" />
             Cosmic Insights
           </h1>
-          <p className="text-muted-foreground">Your astrology and personal growth</p>
+          <p className="text-muted-foreground">Your astrology and personal growth journey</p>
         </div>
 
         {/* Astrology Insights Section */}
         <div className="space-y-4">
-          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          <Card className="p-6 bg-gradient-to-br from-primary/10 via-primary/5 to-background border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-cosmic animate-fade-in">
             <div className="flex items-center gap-2 mb-3">
               <Moon className="w-5 h-5 text-primary" />
               <h2 className="text-xl font-semibold">Today's Energy</h2>
@@ -67,17 +67,17 @@ export default function Insights() {
             <p className="text-foreground leading-relaxed">{dailyInsight}</p>
           </Card>
 
-          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          <Card className="p-6 bg-gradient-to-br from-accent/10 via-accent/5 to-background border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-glow animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <div className="flex items-center gap-2 mb-3">
-              <Calendar className="w-5 h-5 text-primary" />
+              <Calendar className="w-5 h-5 text-accent" />
               <h2 className="text-xl font-semibold">Weekly Focus</h2>
             </div>
             <p className="text-foreground leading-relaxed">{weeklyInsight}</p>
           </Card>
 
-          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          <Card className="p-6 bg-gradient-to-br from-secondary/10 via-secondary/5 to-background border-secondary/20 hover:border-secondary/40 transition-all duration-300 hover:shadow-soft animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-5 h-5 text-primary" />
+              <Sparkles className="w-5 h-5 text-secondary" />
               <h2 className="text-xl font-semibold">Alignment Insight</h2>
             </div>
             <p className="text-foreground leading-relaxed">{alignmentInsight}</p>

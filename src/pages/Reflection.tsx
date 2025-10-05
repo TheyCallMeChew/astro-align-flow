@@ -194,9 +194,9 @@ export default function Reflection() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-6">
       <div className="container max-w-2xl mx-auto px-4 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
-            <Sparkles className="w-8 h-8 text-primary" />
+        <div className="text-center space-y-2 animate-fade-in">
+          <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent flex items-center justify-center gap-2">
+            <Sparkles className="w-8 h-8 text-primary animate-pulse" />
             Voice Reflection
           </h1>
           <p className="text-muted-foreground">
@@ -230,7 +230,7 @@ export default function Reflection() {
 
         {/* Recording Interface */}
         {!useTextMode && !result && (
-          <Card className="p-8 space-y-6">
+          <Card className="p-8 space-y-6 border-primary/20 hover:border-primary/30 transition-all animate-fade-in">
             <div className="flex flex-col items-center gap-6">
               {/* Recording Button */}
               <div className="relative">

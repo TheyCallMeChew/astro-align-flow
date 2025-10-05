@@ -69,18 +69,18 @@ export default function MorningAlignmentNew() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-6">
+    <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-8">
       <div className="container max-w-2xl mx-auto px-4 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
-            <Sunrise className="w-8 h-8 text-primary" />
+        <div className="text-center space-y-3 animate-fade-in">
+          <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent flex items-center justify-center gap-2">
+            <Sunrise className="w-8 h-8 text-primary animate-pulse" />
             Morning Alignment
           </h1>
-          <p className="text-muted-foreground">Set your intentions for the day</p>
+          <p className="text-muted-foreground text-lg">Set your intentions for the day</p>
         </div>
 
         {/* Energy Check */}
-        <Card className="p-6 space-y-4">
+        <Card className="p-6 space-y-4 border-primary/20 hover:border-primary/30 transition-all animate-fade-in">
           <div className="text-center">
             <h2 className="text-xl font-semibold mb-1">How's your energy?</h2>
             <p className="text-sm text-muted-foreground mb-4">
