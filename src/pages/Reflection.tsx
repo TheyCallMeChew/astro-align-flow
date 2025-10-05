@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Mic, Square, Loader2, Volume2, Sparkles } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Mic, Square, Loader2, Volume2, Sparkles, Keyboard } from 'lucide-react';
 import { voiceRecorder } from '@/services/voiceRecorder';
 import { aiReflectionService, type TranscriptionResult } from '@/services/aiReflection';
 import { useToast } from '@/hooks/use-toast';
@@ -21,6 +22,8 @@ export default function Reflection() {
   const [recordingTime, setRecordingTime] = useState(0);
   const [result, setResult] = useState<TranscriptionResult | null>(null);
   const [hasPermission, setHasPermission] = useState(false);
+  const [useTextMode, setUseTextMode] = useState(false);
+  const [textReflection, setTextReflection] = useState('');
 
   useEffect(() => {
     checkPermission();
@@ -48,10 +51,47 @@ export default function Reflection() {
     
     if (!granted) {
       toast({
-        title: 'Permission Required',
-        description: 'Please enable microphone access in Settings to record reflections.',
+        title: 'Microphone access denied',
+        description: "No problem! You can type your reflection instead.",
+      });
+      setUseTextMode(true);
+    }
+  };
+
+  const processTextReflection = async () => {
+    if (!textReflection.trim()) {
+      toast({
+        title: 'Empty reflection',
+        description: 'Please write something before continuing.',
         variant: 'destructive',
       });
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const insights = await aiReflectionService.generateInsights(textReflection);
+      setResult(insights);
+
+      const today = getTodayEntry();
+      updateDayEntry(today.date, {
+        reflection: insights.transcript,
+      });
+
+      toast({
+        title: 'Reflection complete ✨',
+        description: 'Your insights are ready',
+      });
+    } catch (error) {
+      console.error('Error processing reflection:', error);
+      toast({
+        title: 'Processing failed',
+        description: 'Could not process your reflection. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -158,64 +198,124 @@ export default function Reflection() {
           </p>
         </div>
 
-        {/* Recording Interface */}
-        <Card className="p-8 space-y-6">
-          <div className="flex flex-col items-center gap-6">
-            {/* Recording Button */}
-            <div className="relative">
-              <Button
-                variant={isRecording ? 'destructive' : 'cosmic'}
-                size="icon"
-                className={`w-24 h-24 rounded-full transition-all duration-300 ${
-                  isRecording ? 'animate-pulse' : ''
-                }`}
-                onClick={isRecording ? stopRecording : startRecording}
-                disabled={isProcessing}
-              >
-                {isProcessing ? (
-                  <Loader2 className="w-12 h-12 animate-spin" />
-                ) : isRecording ? (
-                  <Square className="w-12 h-12" />
-                ) : (
-                  <Mic className="w-12 h-12" />
-                )}
-              </Button>
+        {/* Mode Toggle */}
+        {!result && (
+          <div className="flex items-center justify-center gap-3">
+            <Button
+              variant={!useTextMode ? 'cosmic' : 'outline'}
+              size="sm"
+              onClick={() => setUseTextMode(false)}
+              className="gap-2"
+            >
+              <Mic className="w-4 h-4" />
+              Voice
+            </Button>
+            <Button
+              variant={useTextMode ? 'cosmic' : 'outline'}
+              size="sm"
+              onClick={() => setUseTextMode(true)}
+              className="gap-2"
+            >
+              <Keyboard className="w-4 h-4" />
+              Text
+            </Button>
+          </div>
+        )}
 
+        {/* Recording Interface */}
+        {!useTextMode && !result && (
+          <Card className="p-8 space-y-6">
+            <div className="flex flex-col items-center gap-6">
+              {/* Recording Button */}
+              <div className="relative">
+                <Button
+                  variant={isRecording ? 'destructive' : 'cosmic'}
+                  size="icon"
+                  className={`w-24 h-24 rounded-full transition-all duration-300 ${
+                    isRecording ? 'animate-pulse' : ''
+                  }`}
+                  onClick={isRecording ? stopRecording : startRecording}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? (
+                    <Loader2 className="w-12 h-12 animate-spin" />
+                  ) : isRecording ? (
+                    <Square className="w-12 h-12" />
+                  ) : (
+                    <Mic className="w-12 h-12" />
+                  )}
+                </Button>
+
+                {isRecording && (
+                  <div className="absolute -inset-3 border-4 border-primary rounded-full animate-ping opacity-20" />
+                )}
+              </div>
+
+              {/* Recording Timer */}
               {isRecording && (
-                <div className="absolute -inset-3 border-4 border-primary rounded-full animate-ping opacity-20" />
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+                  <Badge variant="secondary" className="text-lg px-4 py-1">
+                    {formatTime(recordingTime)}
+                  </Badge>
+                </div>
+              )}
+
+              {/* Status Text */}
+              <p className="text-center text-sm text-muted-foreground">
+                {isProcessing
+                  ? 'Processing your reflection...'
+                  : isRecording
+                  ? 'Recording... Tap the square to stop'
+                  : 'Tap the microphone to start recording'}
+              </p>
+
+              {!hasPermission && !isRecording && (
+                <Button
+                  variant="outline"
+                  onClick={requestPermission}
+                  className="w-full"
+                >
+                  Enable Microphone Access
+                </Button>
               )}
             </div>
+          </Card>
+        )}
 
-            {/* Recording Timer */}
-            {isRecording && (
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                <Badge variant="secondary" className="text-lg px-4 py-1">
-                  {formatTime(recordingTime)}
-                </Badge>
-              </div>
-            )}
-
-            {/* Status Text */}
-            <p className="text-center text-sm text-muted-foreground">
-              {isProcessing
-                ? 'Processing your reflection...'
-                : isRecording
-                ? 'Recording... Tap the square to stop'
-                : 'Tap the microphone to start recording'}
-            </p>
-
-            {!hasPermission && !isRecording && (
+        {/* Text Input Interface */}
+        {useTextMode && !result && (
+          <Card className="p-6 space-y-4">
+            <div className="space-y-3">
+              <h3 className="font-semibold">Write Your Reflection</h3>
+              <Textarea
+                placeholder="Share your thoughts, feelings, or what's on your mind..."
+                value={textReflection}
+                onChange={(e) => setTextReflection(e.target.value)}
+                className="min-h-[200px] resize-none"
+              />
               <Button
-                variant="outline"
-                onClick={requestPermission}
+                variant="cosmic"
+                size="lg"
                 className="w-full"
+                onClick={processTextReflection}
+                disabled={isProcessing || !textReflection.trim()}
               >
-                Enable Microphone Access
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Generate Insights
+                  </>
+                )}
               </Button>
-            )}
-          </div>
-        </Card>
+            </div>
+          </Card>
+        )}
 
         {/* AI Insights */}
         {result && (

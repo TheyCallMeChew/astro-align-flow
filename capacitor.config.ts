@@ -6,6 +6,9 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   // Remove server.url for production builds - iOS loads from bundled assets (capacitor://localhost)
   // For dev with live reload, temporarily add: server: { url: 'YOUR_DEV_URL', cleartext: true }
+  ios: {
+    contentInset: 'always',
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,

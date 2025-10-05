@@ -1,17 +1,19 @@
-# AstroFlow
+# AstroFlow - iOS Reflection & Meditation App
 
-Your personal voice-driven reflection and meditation companion for iOS.
+A private, voice-driven reflection and meditation tool built with React, TypeScript, Tailwind CSS, and Capacitor for iOS.
 
 ## ✨ Features
 
-- **Voice Reflections**: Record spoken reflections with native iOS audio capture
-- **AI Insights**: Transcribe and generate compassionate summaries + affirmations using DeepSeek
-- **Adjustable Meditation**: 1-60 minute meditation timer with breathing guides
-- **Morning Alignment**: Set daily intentions and check energy levels
-- **Evening Reflection**: Review tasks, gratitude, and synchronicities
-- **Insights Dashboard**: Track streaks, badges, and patterns
-- **Onboarding**: Personalized setup with birth data or energy quiz
-- **Privacy-First**: All data stored locally on your device
+- 🎙️ **Voice Reflections**: Record spoken reflections with AI transcription and compassionate insights
+- 🧘 **Adjustable Meditation Timer**: 1-60 minute customizable meditation sessions
+- 🌙 **Moon Phase Integration**: Content personalized by lunar cycles
+- ✨ **AI-Powered Insights**: DeepSeek AI generates summaries and affirmations
+- 🔒 **Privacy-First**: All data stored locally on device
+- 📱 **iOS Native**: Built with Capacitor for native iOS experience
+- 🎯 **Morning Alignment**: Set daily intentions and check energy levels
+- 🌅 **Evening Reflection**: Review tasks, gratitude, and synchronicities
+- 📊 **Insights Dashboard**: Track streaks, badges, and patterns
+- 🎨 **Onboarding**: Personalized setup with birth data or energy quiz
 
 ## 🛠 Tech Stack
 
@@ -72,11 +74,18 @@ npx cap open ios
 
 ### iOS Permissions
 
-The app automatically requests these permissions:
-- **Microphone Access** (`NSMicrophoneUsageDescription`): Required for voice reflections
-- **Notifications** (`Local Notifications`): Optional daily reminders
+**CRITICAL**: Add microphone permission to prevent crash.
 
-Permissions are configured in `ios/App/App/Info.plist` (auto-generated during `cap sync`).
+After running `npx cap sync ios`, add this to `ios/App/App/Info.plist`:
+
+```xml
+<key>NSMicrophoneUsageDescription</key>
+<string>AstroFlow uses your microphone to record reflections and meditations, helping you align your thoughts and track your progress.</string>
+```
+
+The app requires:
+- **Microphone Access**: Required for voice reflections
+- **Notifications**: Optional daily reminders (configured automatically)
 
 ### Live Reload (Development Only)
 
@@ -183,10 +192,20 @@ src/
 
 ## 🔧 Troubleshooting
 
+### Microphone Permission Crash
+
+**Error**: "This app has crashed because it attempted to access privacy-sensitive data without a usage description."
+
+**Fix**: 
+1. Open `ios/App/App/Info.plist`
+2. Add the `NSMicrophoneUsageDescription` key (see iOS Permissions section above)
+3. Rebuild in Xcode
+
 ### Microphone Not Working
 - Check Settings → AstroFlow → Microphone is enabled
 - Restart app after granting permission
-- Verify `Info.plist` has `NSMicrophoneUsageDescription`
+- Verify `Info.plist` has `NSMicrophoneUsageDescription` key
+- Test on a real device (simulator has limited mic support)
 
 ### DeepSeek API Errors
 - Verify API key is correct in `.env`

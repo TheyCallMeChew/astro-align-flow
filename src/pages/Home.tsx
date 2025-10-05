@@ -19,7 +19,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5 pb-24 pt-6">
       <div className="container max-w-2xl mx-auto px-4 space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-3 mb-8">
           <h1 className="text-4xl font-bold bg-gradient-cosmic bg-clip-text text-transparent">
             AstroFlow
           </h1>

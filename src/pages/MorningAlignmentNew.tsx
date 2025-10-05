@@ -81,8 +81,8 @@ export default function MorningAlignmentNew() {
 
         {/* Energy Check */}
         <Card className="p-6 space-y-4">
-          <div>
-            <h2 className="text-lg font-semibold mb-1">How's your energy?</h2>
+          <div className="text-center">
+            <h2 className="text-xl font-semibold mb-1">How's your energy?</h2>
             <p className="text-sm text-muted-foreground mb-4">
               This helps personalize your guidance
             </p>
@@ -93,12 +93,14 @@ export default function MorningAlignmentNew() {
               <Button
                 key={option.value}
                 variant={energy === option.value ? 'cosmic' : 'outline'}
-                className="h-auto py-4 flex flex-col gap-1"
+                className="h-auto py-4 px-2 flex flex-col gap-1 items-center justify-center"
                 onClick={() => setEnergy(option.value)}
               >
-                <span className="text-2xl">{option.emoji}</span>
-                <span className="font-semibold">{option.label}</span>
-                <span className="text-xs opacity-80">{option.desc}</span>
+                <span className="text-2xl mb-1">{option.emoji}</span>
+                <span className="font-semibold text-sm">{option.label}</span>
+                <span className="text-xs opacity-80 text-center leading-tight">
+                  {option.desc}
+                </span>
               </Button>
             ))}
           </div>
