@@ -1,13 +1,13 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Sunrise, Clock, Moon, BarChart3 } from 'lucide-react';
+import { Home, Sunrise, Moon, Heart, BarChart3 } from 'lucide-react';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
 
 const tabs = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/morning', icon: Sunrise, label: 'Morning' },
-  { path: '/midday', icon: Clock, label: 'Midday' },
-  { path: '/evening', icon: Moon, label: 'Evening' },
+  { path: '/reflection', icon: Heart, label: 'Reflect' },
+  { path: '/meditation', icon: Moon, label: 'Meditate' },
   { path: '/insights', icon: BarChart3, label: 'Insights' },
 ];
 

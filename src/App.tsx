@@ -16,7 +16,8 @@ import Privacy from "./pages/onboarding/Privacy";
 // Main App
 import Home from "./pages/Home";
 import MorningAlignmentNew from "./pages/MorningAlignmentNew";
-import Midday from "./pages/Midday";
+import Reflection from "./pages/Reflection";
+import Meditation from "./pages/Meditation";
 import EveningReflectionNew from "./pages/EveningReflectionNew";
 import Insights from "./pages/Insights";
 import Settings from "./pages/Settings";
@@ -50,7 +51,8 @@ function AppRoutes() {
       {/* Main App */}
       <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/morning" element={<ProtectedRoute><MorningAlignmentNew /></ProtectedRoute>} />
-      <Route path="/midday" element={<ProtectedRoute><Midday /></ProtectedRoute>} />
+      <Route path="/reflection" element={<ProtectedRoute><Reflection /></ProtectedRoute>} />
+      <Route path="/meditation" element={<ProtectedRoute><Meditation /></ProtectedRoute>} />
       <Route path="/evening" element={<ProtectedRoute><EveningReflectionNew /></ProtectedRoute>} />
       <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />

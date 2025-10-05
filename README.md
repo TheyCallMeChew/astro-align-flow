@@ -1,73 +1,207 @@
-# Welcome to your Lovable project
+# AstroFlow
 
-## Project info
+Your personal voice-driven reflection and meditation companion for iOS.
 
-**URL**: https://lovable.dev/projects/d1bf55e2-e53e-499c-b5b6-960fd2cf6277
+## ✨ Features
 
-## How can I edit this code?
+- **Voice Reflections**: Record spoken reflections with native iOS audio capture
+- **AI Insights**: Transcribe and generate compassionate summaries + affirmations using DeepSeek
+- **Adjustable Meditation**: 1-60 minute meditation timer with breathing guides
+- **Morning Alignment**: Set daily intentions and check energy levels
+- **Evening Reflection**: Review tasks, gratitude, and synchronicities
+- **Insights Dashboard**: Track streaks, badges, and patterns
+- **Onboarding**: Personalized setup with birth data or energy quiz
+- **Privacy-First**: All data stored locally on your device
 
-There are several ways of editing your application.
+## 🛠 Tech Stack
 
-**Use Lovable**
+- **Platform**: iOS (Capacitor)
+- **Frontend**: Vite + React + TypeScript + Tailwind CSS
+- **UI**: shadcn/ui components
+- **State**: Zustand with persistence
+- **Storage**: Capacitor Preferences
+- **Audio**: capacitor-voice-recorder
+- **AI**: DeepSeek API (cost-effective alternative to OpenAI)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d1bf55e2-e53e-499c-b5b6-960fd2cf6277) and start prompting.
+## 📱 iOS Setup
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Mac with Xcode installed
+- Apple Developer account (for device testing)
+- Node.js 18+ and npm
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Development
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. **Clone and install dependencies:**
+```bash
+git clone <your-repo-url>
+cd astro-align-flow
+npm install
 ```
 
-**Edit a file directly in GitHub**
+2. **Configure DeepSeek API:**
+Create a `.env` file in the project root:
+```env
+VITE_DEEPSEEK_API_KEY=your_deepseek_api_key_here
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Get your API key from: https://platform.deepseek.com/
 
-**Use GitHub Codespaces**
+3. **Add iOS platform:**
+```bash
+npx cap add ios
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+4. **Build and sync:**
+```bash
+npm run build
+npx cap sync ios
+```
 
-## What technologies are used for this project?
+5. **Open in Xcode:**
+```bash
+npx cap open ios
+```
 
-This project is built with:
+6. **Configure in Xcode:**
+   - Select your team/signing certificate
+   - Choose target device or simulator
+   - Update `Info.plist` if needed (mic permissions auto-added)
+   - Click Run (⌘R)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### iOS Permissions
 
-## How can I deploy this project?
+The app automatically requests these permissions:
+- **Microphone Access** (`NSMicrophoneUsageDescription`): Required for voice reflections
+- **Notifications** (`Local Notifications`): Optional daily reminders
 
-Simply open [Lovable](https://lovable.dev/projects/d1bf55e2-e53e-499c-b5b6-960fd2cf6277) and click on Share -> Publish.
+Permissions are configured in `ios/App/App/Info.plist` (auto-generated during `cap sync`).
 
-## Can I connect a custom domain to my Lovable project?
+### Live Reload (Development Only)
 
-Yes, you can!
+For development with live reload:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Update `capacitor.config.ts`:
+```typescript
+server: {
+  url: 'http://YOUR_LOCAL_IP:8080',
+  cleartext: true
+}
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+2. Run dev server and sync:
+```bash
+npm run dev
+npx cap sync ios && npx cap run ios
+```
+
+**⚠️ CRITICAL**: Remove `server` block before production builds!
+
+### Production Build
+
+For App Store or TestFlight:
+
+1. Remove `server.url` from `capacitor.config.ts`
+2. Build: `npm run build`
+3. Sync: `npx cap sync ios`
+4. Open Xcode and archive for distribution
+
+## 🤖 AI Configuration
+
+### Using DeepSeek (Recommended)
+
+DeepSeek is cost-effective and provides excellent results:
+
+```env
+VITE_DEEPSEEK_API_KEY=sk-your-key-here
+```
+
+**Pricing**: ~$0.14 per 1M tokens (input) vs OpenAI's $2.50-$5.00
+
+### Fallback Options
+
+If DeepSeek is unavailable, the app gracefully degrades:
+1. Uses Web Speech API for transcription (browser-based)
+2. Provides generic compassionate summaries
+3. All features remain functional
+
+### Extending AI Features
+
+To add custom AI providers, modify:
+- `src/services/aiReflection.ts` - Add new API integrations
+- Update constructor to accept multiple providers
+
+## 📂 Project Structure
+
+```
+src/
+├── components/
+│   ├── BottomTabBar.tsx      # 5-tab navigation (Home, Morning, Reflect, Meditate, Insights)
+│   └── ui/                   # shadcn components
+├── services/
+│   ├── voiceRecorder.ts      # Native iOS audio recording
+│   ├── aiReflection.ts       # DeepSeek API integration
+│   └── meditationTimer.ts    # Adjustable timer (1-60 min)
+├── pages/
+│   ├── onboarding/           # First-run wizard
+│   ├── Home.tsx              # Main dashboard
+│   ├── MorningAlignmentNew.tsx
+│   ├── Reflection.tsx        # Voice recording & AI insights
+│   ├── Meditation.tsx        # Meditation timer
+│   ├── EveningReflectionNew.tsx
+│   ├── Insights.tsx
+│   └── Settings.tsx
+├── store/
+│   └── index.ts              # Zustand store with persistence
+└── App.tsx                   # Router & auth guards
+```
+
+## 🔒 Privacy & Data
+
+- **Local-Only Storage**: All data stored via Capacitor Preferences
+- **No Cloud Sync**: Reflections never leave your device
+- **Export Anytime**: JSON export available in Settings
+- **Full Control**: Delete data or reset at any time
+
+## 🧘 Meditation Features
+
+- **Adjustable Duration**: 1-60 minutes (saved preference)
+- **Visual Timer**: Circular progress indicator
+- **Breathing Guides**: Low/Medium/High energy techniques
+- **Pause/Resume**: Full control during session
+- **Haptic Feedback**: Native iOS haptics on actions
+
+## 🎤 Voice Reflection Workflow
+
+1. Tap microphone → Start recording
+2. Speak naturally (unlimited time)
+3. Tap stop → Processing with DeepSeek AI
+4. View transcript + compassionate summary
+5. Receive personalized affirmation
+6. Optional: Speak affirmation aloud (TTS)
+
+## 🔧 Troubleshooting
+
+### Microphone Not Working
+- Check Settings → AstroFlow → Microphone is enabled
+- Restart app after granting permission
+- Verify `Info.plist` has `NSMicrophoneUsageDescription`
+
+### DeepSeek API Errors
+- Verify API key is correct in `.env`
+- Check API quota: https://platform.deepseek.com/usage
+- App will fallback to offline mode if API unavailable
+
+### Build Errors
+- Clear derived data: `rm -rf ~/Library/Developer/Xcode/DerivedData`
+- Clean iOS build: `cd ios && pod deintegrate && pod install`
+- Resync: `npx cap sync ios --force`
+
+## 📄 License
+
+MIT
+
+---
+
+Built with ❤️ using [Lovable](https://lovable.dev)

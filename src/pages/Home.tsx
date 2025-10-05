@@ -3,7 +3,7 @@ import { useStore } from '@/store';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sunrise, Moon, TrendingUp, Sparkles } from 'lucide-react';
+import { Sunrise, Moon, TrendingUp, Sparkles, Heart, Brain } from 'lucide-react';
 import { getMoonPhase, getMoonPhaseEmoji } from '@/lib/moonPhase';
 
 export default function Home() {
@@ -79,6 +79,26 @@ export default function Home() {
           >
             <Sunrise className="w-5 h-5 mr-2" />
             {today.morningEnergy ? 'Review Morning' : 'Start Morning Alignment'}
+          </Button>
+
+          <Button
+            variant="cosmic"
+            size="lg"
+            className="w-full h-14"
+            onClick={() => navigate('/reflection')}
+          >
+            <Heart className="w-5 h-5 mr-2" />
+            Voice Reflection
+          </Button>
+
+          <Button
+            variant="cosmic-outline"
+            size="lg"
+            className="w-full h-14"
+            onClick={() => navigate('/meditation')}
+          >
+            <Brain className="w-5 h-5 mr-2" />
+            Meditation Timer
           </Button>
 
           <Button
