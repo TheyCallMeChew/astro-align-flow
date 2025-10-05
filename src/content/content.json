@@ -1,0 +1,61 @@
+{
+  "quotes": [
+    {
+      "text": "Rest is not a luxury, it's a necessity. Honor your need for pause.",
+      "tags": { "energy": "low", "phase": "new" }
+    },
+    {
+      "text": "Gentle energy invites gentle growth. Move at the pace that feels right.",
+      "tags": { "energy": "low", "phase": "waning" }
+    },
+    {
+      "text": "Your quiet moments are when the universe whispers its secrets.",
+      "tags": { "energy": "low", "phase": "full" }
+    },
+    {
+      "text": "Momentum builds from small, consistent actions. Keep going.",
+      "tags": { "energy": "medium", "phase": "waxing" }
+    },
+    {
+      "text": "You're in the sweet spot between rest and action. Trust your rhythm.",
+      "tags": { "energy": "medium", "phase": "full" }
+    },
+    {
+      "text": "Balance is found in the middle path. Neither too much nor too little.",
+      "tags": { "energy": "medium", "phase": "new" }
+    },
+    {
+      "text": "Channel this vibrant energy into what lights you up most.",
+      "tags": { "energy": "high", "phase": "full" }
+    },
+    {
+      "text": "Your high energy is a gift. Use it to create and inspire.",
+      "tags": { "energy": "high", "phase": "waxing" }
+    },
+    {
+      "text": "Big energy calls for big intentions. What will you manifest today?",
+      "tags": { "energy": "high", "phase": "new" }
+    }
+  ],
+  "nudges": [
+    {
+      "text": "Consider a 20-minute restorative break. Your body will thank you.",
+      "tags": { "energy": "low" }
+    },
+    {
+      "text": "Hydrate and stretch. Small acts of care compound.",
+      "tags": { "energy": "medium" }
+    },
+    {
+      "text": "You're riding a wave of energy. Use it wisely before it naturally ebbs.",
+      "tags": { "energy": "high" }
+    }
+  ],
+  "reflectionPrompts": [
+    "What brought you joy today, even in small moments?",
+    "What surprised you or caught you off guard?",
+    "What pattern are you noticing in your life right now?",
+    "What are you ready to release or let go of?",
+    "What would you like to invite more of into your life?"
+  ]
+}

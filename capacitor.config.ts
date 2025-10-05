@@ -2,12 +2,10 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'app.lovable.d1bf55e2e53e499cb5b6960fd2cf6277',
-  appName: 'astro-align-flow',
+  appName: 'AstroFlow',
   webDir: 'dist',
-  server: {
-    url: 'https://d1bf55e2-e53e-499c-b5b6-960fd2cf6277.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // Remove server.url for production builds - iOS loads from bundled assets (capacitor://localhost)
+  // For dev with live reload, temporarily add: server: { url: 'YOUR_DEV_URL', cleartext: true }
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
@@ -17,6 +15,10 @@ const config: CapacitorConfig = {
       showSpinner: false,
       splashFullScreen: true,
       splashImmersive: true,
+    },
+    LocalNotifications: {
+      smallIcon: 'ic_stat_icon_config_sample',
+      iconColor: '#6366F1',
     },
   },
 };
