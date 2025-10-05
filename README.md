@@ -83,6 +83,8 @@ After running `npx cap sync ios`, add this to `ios/App/App/Info.plist`:
 <string>AstroFlow uses your microphone to record reflections and meditations, helping you align your thoughts and track your progress.</string>
 ```
 
+**⚠️ CRITICAL**: The app will crash on iOS without this permission description!
+
 The app requires:
 - **Microphone Access**: Required for voice reflections
 - **Notifications**: Optional daily reminders (configured automatically)

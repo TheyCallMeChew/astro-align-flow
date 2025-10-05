@@ -1,11 +1,17 @@
+import { useState, useEffect } from 'react';
 import { useStore } from '@/store';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Award, TrendingUp, CheckCircle2, Zap } from 'lucide-react';
+import { Award, TrendingUp, CheckCircle2, Zap, Sparkles, Moon, Calendar } from 'lucide-react';
+import insightsData from '@/data/insights.json';
+import { generateAlignmentInsight, getCurrentTransits } from '@/utils/AstroAlignmentEngine';
 
 export default function Insights() {
-  const { days, streaks, badges } = useStore();
+  const { days, streaks, badges, profile } = useStore();
+  const [dailyInsight, setDailyInsight] = useState('');
+  const [weeklyInsight, setWeeklyInsight] = useState('');
+  const [alignmentInsight, setAlignmentInsight] = useState('');
 
   const energyData = Object.values(days)
     .filter((day) => day.morningEnergy)
@@ -27,12 +33,55 @@ export default function Insights() {
   const avgEnergy =
     energyData.reduce((sum, d) => sum + d.energy, 0) / (energyData.length || 1);
 
+  // Load astrology insights
+  useEffect(() => {
+    const userSign = (profile.sunSign || 'libra').toLowerCase() as keyof typeof insightsData;
+    const signInsights = insightsData[userSign] || insightsData.libra;
+    
+    setDailyInsight(signInsights.today);
+    setWeeklyInsight(signInsights.week);
+
+    const transits = getCurrentTransits();
+    const alignment = generateAlignmentInsight(profile.sunSign || 'Libra', transits);
+    setAlignmentInsight(alignment);
+  }, [profile.sunSign]);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-primary/5 pb-24 pt-6">
       <div className="container max-w-4xl mx-auto px-4 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold">Your Insights</h1>
-          <p className="text-muted-foreground">Track your growth and patterns</p>
+          <h1 className="text-3xl font-bold flex items-center justify-center gap-2">
+            <Sparkles className="w-8 h-8 text-primary" />
+            Cosmic Insights
+          </h1>
+          <p className="text-muted-foreground">Your astrology and personal growth</p>
+        </div>
+
+        {/* Astrology Insights Section */}
+        <div className="space-y-4">
+          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+            <div className="flex items-center gap-2 mb-3">
+              <Moon className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-semibold">Today's Energy</h2>
+            </div>
+            <p className="text-foreground leading-relaxed">{dailyInsight}</p>
+          </Card>
+
+          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+            <div className="flex items-center gap-2 mb-3">
+              <Calendar className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-semibold">Weekly Focus</h2>
+            </div>
+            <p className="text-foreground leading-relaxed">{weeklyInsight}</p>
+          </Card>
+
+          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-semibold">Alignment Insight</h2>
+            </div>
+            <p className="text-foreground leading-relaxed">{alignmentInsight}</p>
+          </Card>
         </div>
 
         {/* Stats Grid */}

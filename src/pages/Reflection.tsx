@@ -96,6 +96,11 @@ export default function Reflection() {
   };
 
   const startRecording = async () => {
+    // Prevent double-tap
+    if (isRecording || isProcessing) {
+      return;
+    }
+
     if (Capacitor.isNativePlatform()) {
       await Haptics.impact({ style: ImpactStyle.Medium });
     }
@@ -117,9 +122,10 @@ export default function Reflection() {
       });
     } catch (error) {
       console.error('Error starting recording:', error);
+      setIsRecording(false);
       toast({
         title: 'Recording failed',
-        description: 'Could not start recording. Please try again.',
+        description: error instanceof Error ? error.message : 'Could not start recording. Please try again.',
         variant: 'destructive',
       });
     }

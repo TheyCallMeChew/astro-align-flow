@@ -6,6 +6,7 @@ export interface UserProfile {
   birthDate?: string;
   birthTime?: string;
   birthLocation?: string;
+  sunSign?: string;
   quizResults?: Record<string, string>;
   lowEnergyMode: boolean;
   notificationsEnabled: boolean;

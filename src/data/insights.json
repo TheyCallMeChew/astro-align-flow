@@ -1,0 +1,50 @@
+{
+  "aries": {
+    "today": "Take bold action even if clarity isn't perfect.",
+    "week": "Mars empowers your creativity — channel it into new ideas."
+  },
+  "taurus": {
+    "today": "Ground yourself in comfort; your patience will pay off.",
+    "week": "Embrace steady progress — beauty and structure align this week."
+  },
+  "gemini": {
+    "today": "Communication flows naturally — express your truth.",
+    "week": "Mercury's dance brings clarity to scattered thoughts."
+  },
+  "cancer": {
+    "today": "Honor your emotions as guides, not obstacles.",
+    "week": "The Moon's phases mirror your inner transformation."
+  },
+  "leo": {
+    "today": "Your creative fire seeks authentic expression.",
+    "week": "The Sun illuminates your path to joyful leadership."
+  },
+  "virgo": {
+    "today": "Seek refinement in systems that serve your growth.",
+    "week": "Mercury supports your analytical gifts — trust the details."
+  },
+  "libra": {
+    "today": "Seek harmony before decision-making.",
+    "week": "Partnerships are your mirror — notice how balance fuels creativity."
+  },
+  "scorpio": {
+    "today": "Dive deep into transformation, not avoidance.",
+    "week": "Pluto's power supports your rebirth — embrace the intensity."
+  },
+  "sagittarius": {
+    "today": "Expand your horizons through learning and adventure.",
+    "week": "Jupiter's optimism guides you toward meaningful exploration."
+  },
+  "capricorn": {
+    "today": "Build structures that honor both ambition and soul.",
+    "week": "Saturn's discipline supports your long-term vision."
+  },
+  "aquarius": {
+    "today": "Innovation emerges from detached observation.",
+    "week": "Uranus awakens your revolutionary spirit — trust the unconventional."
+  },
+  "pisces": {
+    "today": "Compassion and imagination are your superpowers today.",
+    "week": "Neptune's dreams dissolve boundaries — flow with intuition."
+  }
+}
